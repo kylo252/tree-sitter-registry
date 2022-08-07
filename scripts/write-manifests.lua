@@ -4,6 +4,8 @@ local parsers = require("nvim-treesitter.parsers")
 
 local uv = vim.loop
 
+vim.json.encode_escape_forward_slash(false)
+
 local function join_paths(...)
   local path_sep = uv.os_uname().version:match("Windows") and "\\" or "/"
   local result = table.concat({ ... }, path_sep)
@@ -66,7 +68,7 @@ local locked_parsers = {}
 
 local completed = 0
 
-local function write_manifests(verbose, filtered_parsers)
+local function generate_metadata(verbose, filtered_parsers)
   local requested_parsers = {}
   local active_jobs = {}
   -- Load previous lockfile
@@ -129,7 +131,7 @@ local function write_manifests(verbose, filtered_parsers)
         print("error: " .. errors)
         return
       end
-      locked_parsers[v.name].revision = result:gsub("\tHEAD\n", "") or revision
+      locked_parsers[v.name].revision = result:gsub("\n", "")
     end
 
     local add_desc = function(success, result, errors)
@@ -152,14 +154,13 @@ local function write_manifests(verbose, filtered_parsers)
       locked_parsers[v.name].license = result:gsub("\n", "")
     end
 
-    local handle = call_proc("git", { args = { "ls-remote", url, "HEAD" } }, add_revision)
-    table.insert(active_jobs, handle)
+    local get_rev = call_proc("gh", { args = { "api", "/repos/" .. repo .. "/commits", "-q", ".[1].sha" } }, add_revision)
+    table.insert(active_jobs, get_rev)
 
     local get_desc = call_proc("gh", { args = { "api", "/repos/" .. repo, "-q", ".description" } }, add_desc)
     table.insert(active_jobs, get_desc)
 
-    local get_license =
-    call_proc("gh", { args = { "api", "/repos/" .. repo, "-q", ".license.spdx_id" } }, add_license)
+    local get_license = call_proc("gh", { args = { "api", "/repos/" .. repo, "-q", ".license.spdx_id" } }, add_license)
     table.insert(active_jobs, get_license)
   end
 
@@ -174,14 +175,32 @@ local function write_manifests(verbose, filtered_parsers)
     print(vim.inspect(locked_parsers))
   end
 
-  for _, v in ipairs(locked_parsers) do
-    local prefix = join_paths(".", "ports", v.name)
-    vim.fn.mkdir(prefix, "-p")
+  local output = join_paths(uv.cwd(), "parsers.lua")
+  local fd = assert(io.open(output, "w"))
+  fd:write("return " .. vim.inspect(locked_parsers), "\n")
+  fd:flush()
+end
+
+local function write_manifests()
+  local parsers_file = join_paths(uv.cwd(), "parsers.lua")
+  local parsers_info = dofile(parsers_file)
+
+  for _, v in pairs(parsers_info) do
+    print("creating: " .. v.name)
+    local prefix = join_paths(uv.cwd(), "ports", v.name)
+    os.execute("mkdir -p " .. prefix)
+
+    local manifest = vim.deepcopy(v)
+    manifest.abi = nil
+    manifest.revision = nil
+    manifest.ref = nil
+    manifest["version-date"] = os.date("%Y-%m-%d")
     local output = join_paths(prefix, "vcpkg.json")
     local fd = assert(io.open(output, "w"))
-    fd:write(vim.json.encode(locked_parsers[v.name]), "\n")
+    fd:write(vim.json.encode(manifest), "\n")
     fd:flush()
   end
 end
 
+generate_metadata()
 write_manifests()
