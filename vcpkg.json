@@ -1,0 +1,242 @@
+{
+  "bash": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "Bash grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-bash",
+    "license": "MIT",
+    "name": "tree-sitter-bash",
+    "ref": "master",
+    "revision": "275effdfc0edce774acf7d481f9ea195c6c403cd",
+    "supports": "!uwp"
+  },
+  "c": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "C grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-c",
+    "license": "MIT",
+    "name": "tree-sitter-c",
+    "ref": "master",
+    "revision": "7175a6dd5fc1cee660dce6fe23f6043d75af424a",
+    "supports": "!uwp"
+  },
+  "css": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "CSS grammar for Tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-css",
+    "license": "MIT",
+    "name": "tree-sitter-css",
+    "ref": "master",
+    "revision": "a03f1d2d1dfbf6f8e0fdca5f9ff030228241eb57",
+    "supports": "!uwp"
+  },
+  "javascript": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "Javascript grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-javascript",
+    "license": "MIT",
+    "name": "tree-sitter-javascript",
+    "ref": "master",
+    "revision": "35565430231d0c15b748b0c9de36b247d8780f75",
+    "supports": "!uwp"
+  },
+  "json": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "JSON grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-json",
+    "license": "MIT",
+    "name": "tree-sitter-json",
+    "ref": "master",
+    "revision": "368736a6137770f785e1e7479a6be29417eb13aa",
+    "supports": "!uwp"
+  },
+  "lua": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "Lua grammar for tree-sitter.",
+    "homepage": "https://github.com/MunifTanjim/tree-sitter-lua",
+    "license": "MIT",
+    "name": "tree-sitter-lua",
+    "ref": "master",
+    "revision": "c9ece5b2d348f917052db5a2da9bd4ecff07426c",
+    "supports": "!uwp"
+  },
+  "python": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "Python grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-python",
+    "license": "MIT",
+    "name": "tree-sitter-python",
+    "ref": "master",
+    "revision": "de221eccf9a221f5b85474a553474a69b4b5784d",
+    "supports": "!uwp"
+  },
+  "rust": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "Rust grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-rust",
+    "license": "MIT",
+    "name": "tree-sitter-rust",
+    "ref": "master",
+    "revision": "41e23b454f503e6fe63ec4b6d9f7f2cf7788ab8e",
+    "supports": "!uwp"
+  },
+  "typescript": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "TypeScript grammar for tree-sitter",
+    "homepage": "https://github.com/tree-sitter/tree-sitter-typescript",
+    "license": "MIT",
+    "name": "tree-sitter-typescript",
+    "ref": "master",
+    "revision": "49e82b1bce36d6046df911901684cd66b5345d58",
+    "supports": "!uwp"
+  },
+  "yaml": {
+    "abi": 13,
+    "dependencies": [
+      {
+        "host": true,
+        "name": "tree-sitter-common"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake"
+      },
+      {
+        "host": true,
+        "name": "vcpkg-cmake-config"
+      }
+    ],
+    "description": "YAML grammar for tree-sitter",
+    "homepage": "https://github.com/ikatyang/tree-sitter-yaml",
+    "license": "MIT",
+    "name": "tree-sitter-yaml",
+    "ref": "master",
+    "revision": "0e36bed171768908f331ff7dff9d956bae016efb",
+    "supports": "!uwp"
+  }
+}
