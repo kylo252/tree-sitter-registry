@@ -5,20 +5,12 @@ function(vcpkg_ts_parser_add)
   cmake_parse_arguments(PARSER
     ""
     ""
-    "LANGUAGE;REPO;REF;SHA512;HEAD_REF;MIN_ABI_VERSION" ${ARGN})
+    "LANGUAGE;MIN_ABI_VERSION;SOURCE_PATH" ${ARGN})
 
-  vcpkg_from_github(
-    OUT_SOURCE_PATH SOURCE_PATH
-    REPO ${PARSER_REPO}
-    REF ${PARSER_REF}
-    SHA512 ${PARSER_SHA512}
-    HEAD_REF ${PARSER_HEAD_REF}
-  )
-
-  if(EXISTS "${SOURCE_PATH}/src/parser.c")
+  if(EXISTS "${PARSER_SOURCE_PATH}/src/parser.c")
     set(_abi_version_re "#define LANGUAGE_VERSION ([0-9]+)")
     file(STRINGS
-      "${SOURCE_PATH}/src/parser.c"
+      "${PARSER_SOURCE_PATH}/src/parser.c"
         _abi_version_define REGEX "${_abi_version_re}"
     )
     string(REGEX REPLACE "${_abi_version_re}" "\\1" _abi_version ${_abi_version_define})
@@ -45,16 +37,16 @@ function(vcpkg_ts_parser_add)
     )
     vcpkg_execute_required_process(
       COMMAND tree-sitter generate --log --abi ${PARSER_MIN_ABI_VERSION}
-      WORKING_DIRECTORY ${SOURCE_PATH}
+      WORKING_DIRECTORY ${PARSER_SOURCE_PATH}
       LOGNAME grammar-regen-${TARGET_TRIPLET}
     )
   endif()
 
   set(PARSER_NAME tree-sitter-${PARSER_LANGUAGE})
-  configure_file(${CURRENT_HOST_INSTALLED_DIR}/share/tree-sitter-common/CMakeLists.txt.in ${SOURCE_PATH}/CMakeLists.txt @ONLY)
+  configure_file(${CURRENT_HOST_INSTALLED_DIR}/share/tree-sitter-common/CMakeLists.txt.in ${PARSER_SOURCE_PATH}/CMakeLists.txt @ONLY)
 
   vcpkg_cmake_configure(
-    SOURCE_PATH "${SOURCE_PATH}"
+    SOURCE_PATH "${PARSER_SOURCE_PATH}"
   )
 
   vcpkg_build_cmake()
@@ -66,7 +58,7 @@ function(vcpkg_ts_parser_add)
   endif()
 
   # Handle copyright
-  file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+  file(INSTALL ${PARSER_SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
 
   vcpkg_fixup_pkgconfig()
   vcpkg_copy_pdbs()
