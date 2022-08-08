@@ -193,7 +193,7 @@ local function write_portfile(parser_info)
 		:gsub("@LANGUAGE@", parser_info.language)
 		:gsub("@HEAD_REF@", parser_info.branch)
 		:gsub("@ABI_VER@", parser_info.abi)
-    :gsub("@SHA512@", parser_info.sha512)
+		:gsub("@SHA512@", parser_info.sha512)
 	local prefix = join_paths(uv.cwd(), "ports", parser_info.name)
 	local portfile = join_paths(prefix, "portfile.cmake")
 	local fd = assert(io.open(portfile, "w"))
@@ -205,7 +205,13 @@ local function write_manifests()
 	local parsers_file = join_paths(uv.cwd(), "parsers.lua")
 	local parsers_info = dofile(parsers_file)
 
+	local baseline = { default = {} }
+	local version_date = os.date("%Y-%m-%d")
 	for _, v in pairs(parsers_info) do
+		baseline.default[v.name] = {
+			baseline = version_date,
+			["port-version"] = 0,
+		}
 		print("creating: " .. v.name)
 		local prefix = join_paths(uv.cwd(), "ports", v.name)
 		os.execute("mkdir -p " .. prefix)
@@ -218,12 +224,17 @@ local function write_manifests()
 		manifest.repo = nil
 		manifest.language = nil
 		manifest.sha512 = nil
-		manifest["version-date"] = os.date("%Y-%m-%d")
+		manifest["version-date"] = version_date
 		local output = join_paths(prefix, "vcpkg.json")
 		local fd = assert(io.open(output, "w"))
 		fd:write(vim.json.encode(manifest), "\n")
 		fd:flush()
 	end
+
+  local baseline_file = join_paths(uv.cwd(), "versions", "baseline.json")
+	local fd = assert(io.open(baseline_file, "w"))
+	fd:write(vim.json.encode(baseline), "\n")
+	fd:flush()
 end
 
 generate_metadata()
