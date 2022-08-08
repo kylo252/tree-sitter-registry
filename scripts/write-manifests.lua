@@ -125,13 +125,15 @@ local function generate_metadata(verbose, filtered_parsers)
 			abi = v.parser.abi or 13,
 		}
 
-		local add_revision = function(success, result, errors)
+		local add_sha512 = function(success, result, errors)
 			completed = completed + 1
 			if not success then
 				print("error: " .. errors)
 				return
 			end
-			locked_parsers[v.name].revision = result:gsub("\n", "")
+			local revision, sha512 = result:match("(%S+)%W+(%S+)")
+			locked_parsers[v.name].revision = revision
+			locked_parsers[v.name].sha512 = sha512
 		end
 
 		local add_desc = function(success, result, errors)
@@ -152,9 +154,8 @@ local function generate_metadata(verbose, filtered_parsers)
 			locked_parsers[v.name].license = result:gsub("\n", "")
 		end
 
-		local get_rev =
-			call_proc("gh", { args = { "api", "/repos/" .. repo .. "/commits", "-q", ".[1].sha" } }, add_revision)
-		table.insert(active_jobs, get_rev)
+		local get_sha512 = call_proc("bash", { args = { "scripts/calculate_sha512.sh", repo } }, add_sha512)
+		table.insert(active_jobs, get_sha512)
 
 		local get_desc = call_proc("gh", { args = { "api", "/repos/" .. repo, "-q", ".description" } }, add_desc)
 		table.insert(active_jobs, get_desc)
@@ -186,13 +187,13 @@ local function write_portfile(parser_info)
 	local f = assert(io.open(template_file, "r"))
 	local template = f:read("*a")
 	f:close()
-  -- TODO: seems like figuring out the sha512 will be annoying..
 	template = template
 		:gsub("@REPO@", parser_info.repo)
 		:gsub("@REF@", parser_info.revision)
 		:gsub("@LANGUAGE@", parser_info.language)
 		:gsub("@HEAD_REF@", parser_info.branch)
-    :gsub("@ABI_VER@", parser_info.abi)
+		:gsub("@ABI_VER@", parser_info.abi)
+    :gsub("@SHA512@", parser_info.sha512)
 	local prefix = join_paths(uv.cwd(), "ports", parser_info.name)
 	local portfile = join_paths(prefix, "portfile.cmake")
 	local fd = assert(io.open(portfile, "w"))
@@ -216,6 +217,7 @@ local function write_manifests()
 		manifest.branch = nil
 		manifest.repo = nil
 		manifest.language = nil
+		manifest.sha512 = nil
 		manifest["version-date"] = os.date("%Y-%m-%d")
 		local output = join_paths(prefix, "vcpkg.json")
 		local fd = assert(io.open(output, "w"))
