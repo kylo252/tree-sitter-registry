@@ -104,7 +104,6 @@ local function generate_metadata(verbose, filtered_parsers)
       name = name,
       homepage = url,
       repo = repo,
-      supports = "!uwp",
       location = v.parser.install_info.location,
       dependencies = {
         {
