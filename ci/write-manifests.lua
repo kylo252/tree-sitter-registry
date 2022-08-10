@@ -76,6 +76,7 @@ local function generate_metadata(verbose, filtered_parsers)
       or {
         "bash",
         "c",
+        "cpp",
         "javascript",
         "json",
         "lua",
