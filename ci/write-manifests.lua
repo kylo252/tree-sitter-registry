@@ -1,4 +1,4 @@
--- Execute as `nvim --headless -c "luafile ./scripts/write-manifests.lua"`
+-- Execute as `nvim --headless -c "luafile ./ci/write-manifests.lua"`
 
 local parsers = require("nvim-treesitter.parsers")
 
@@ -155,7 +155,7 @@ local function generate_metadata(verbose, filtered_parsers)
       locked_parsers[v.name].license = result:gsub("\n", "")
     end
 
-    local get_sha512 = call_proc("bash", { args = { "scripts/calculate_sha512.sh", repo } }, add_sha512)
+    local get_sha512 = call_proc("bash", { args = { "ci/calculate_sha512.sh", repo } }, add_sha512)
     table.insert(active_jobs, get_sha512)
 
     local get_desc = call_proc("gh", { args = { "api", "/repos/" .. repo, "-q", ".description" } }, add_desc)
@@ -184,7 +184,7 @@ local function generate_metadata(verbose, filtered_parsers)
 end
 
 local function write_portfile(parser_info)
-  local template_file = join_paths(uv.cwd(), "scripts", "portfile.cmake.in")
+  local template_file = join_paths(uv.cwd(), "ci", "portfile.cmake.in")
   local f = assert(io.open(template_file, "r"))
   local template = f:read("*a")
   f:close()
@@ -195,7 +195,10 @@ local function write_portfile(parser_info)
       :gsub("@HEAD_REF@", parser_info.branch)
       :gsub("@ABI_VER@", parser_info.abi)
       :gsub("@SHA512@", parser_info.sha512)
-      :gsub("@SOURCE_PATH@", ([["%s${SOURCE_PATH}"]]):format(parser_info.location and parser_info.location .. "/" or ""))
+      :gsub(
+        "@SOURCE_PATH@",
+        ([["${SOURCE_PATH}%s"]]):format(parser_info.location and ("/" .. parser_info.location) or "")
+      )
   local prefix = join_paths(uv.cwd(), "ports", parser_info.name)
   local portfile = join_paths(prefix, "portfile.cmake")
   local fd = assert(io.open(portfile, "w"))
@@ -226,6 +229,7 @@ local function write_manifests()
     manifest.repo = nil
     manifest.language = nil
     manifest.sha512 = nil
+    manifest.location = nil
     manifest["version-date"] = version_date
     local output = join_paths(prefix, "vcpkg.json")
     local fd = assert(io.open(output, "w"))
