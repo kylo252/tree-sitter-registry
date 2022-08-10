@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
+set -e
 
-nvim --headless -c "luafile ./scripts/write-manifests.lua" -c "q"
+REPO_ROOT=$(git rev-parse --show-toplevel)
 
-vcpkg format-manifest --all --vcpkg-root=.
+nvim --headless -c "luafile $REPO_ROOT/scripts/write-manifests.lua" -c "q"
+
+bash "$REPO_ROOT/scripts/add_versions.sh"

@@ -1,5 +1,21 @@
 {
   "default": {
+    "tree-sitter-bash": {
+      "baseline": "2022-08-08",
+      "port-version": 0
+    },
+    "tree-sitter-c": {
+      "baseline": "2022-08-08",
+      "port-version": 0
+    },
+    "tree-sitter-common": {
+      "baseline": "0.20.6",
+      "port-version": 0
+    },
+    "tree-sitter-css": {
+      "baseline": "2022-08-08",
+      "port-version": 0
+    },
     "tree-sitter-javascript": {
       "baseline": "2022-08-08",
       "port-version": 0
@@ -8,11 +24,11 @@
       "baseline": "2022-08-08",
       "port-version": 0
     },
-    "tree-sitter-bash": {
+    "tree-sitter-lua": {
       "baseline": "2022-08-08",
       "port-version": 0
     },
-    "tree-sitter-lua": {
+    "tree-sitter-python": {
       "baseline": "2022-08-08",
       "port-version": 0
     },
@@ -20,19 +36,7 @@
       "baseline": "2022-08-08",
       "port-version": 0
     },
-    "tree-sitter-c": {
-      "baseline": "2022-08-08",
-      "port-version": 0
-    },
     "tree-sitter-typescript": {
-      "baseline": "2022-08-08",
-      "port-version": 0
-    },
-    "tree-sitter-css": {
-      "baseline": "2022-08-08",
-      "port-version": 0
-    },
-    "tree-sitter-python": {
       "baseline": "2022-08-08",
       "port-version": 0
     },
