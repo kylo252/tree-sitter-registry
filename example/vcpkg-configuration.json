@@ -1,0 +1,31 @@
+{
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://github.com/kylo252/tree-sitter-registry",
+      "baseline": "650253ac22590e38f4f3673bbf07dba7ef2679c5",
+      "reference": "master",
+      "packages": [
+        "tree-sitter-common",
+        "tree-sitter-bash",
+        "tree-sitter-c",
+        "tree-sitter-css",
+        "tree-sitter-javascript",
+        "tree-sitter-json",
+        "tree-sitter-lua",
+        "tree-sitter-python",
+        "tree-sitter-rust",
+        "tree-sitter-typescript",
+        "tree-sitter-yaml"
+      ]
+    },
+    {
+      "kind": "git",
+      "repository": "https://github.com/mathisloge/vcpkg-registry",
+      "baseline": "f65530375ff334fd3152b7d5e2651d0b54165629",
+      "packages": [
+        "lua51"
+      ]
+    }
+  ]
+}

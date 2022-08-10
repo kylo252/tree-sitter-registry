@@ -1,0 +1,17 @@
+{
+  "name": "test-project",
+  "version-string": "1",
+  "description": "vcpkg registries test",
+  "dependencies": [
+    "tree-sitter-c",
+    "tree-sitter-bash",
+    "tree-sitter-css",
+    "tree-sitter-javascript",
+    "tree-sitter-json",
+    "tree-sitter-lua",
+    "tree-sitter-python",
+    "tree-sitter-rust",
+    "tree-sitter-typescript",
+    "tree-sitter-yaml"
+  ]
+}
