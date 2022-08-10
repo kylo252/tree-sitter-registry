@@ -8,6 +8,8 @@ vcpkg_from_github(
   HEAD_REF master
 )
 
+file(TOUCH "${SOURCE_PATH}/LICENSE") # currently missing from upstream
+
 vcpkg_ts_parser_add(
   LANGUAGE lua
   SOURCE_PATH "${SOURCE_PATH}"
