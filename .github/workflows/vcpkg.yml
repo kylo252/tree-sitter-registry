@@ -1,0 +1,19 @@
+name: vcpkg
+
+on:
+  push:
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 8
+    name: vcpkg-test
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: test vcpkg
+        shell: pwsh
+        run: |
+          vcpkg version
+          cd example
+          vcpkg install
