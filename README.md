@@ -18,6 +18,8 @@ The plan is to eventually upstream all of this, see [microsoft/vcpkg#26272](http
 - copy both config files from `example` into the desired folder
 - run `vcpkg install` (a.k.a. manifest mode) in that folder
 
+Check [.github/workflows/vcpkg.yml](.github/workflows/vcpkg.yml) for a full example.
+
 #### How does it work?
 
 use a common [`CMakeLists.txt`](ports/tree-sitter-common/CMakeLists.txt.in) that knows how to build all these parsers.
