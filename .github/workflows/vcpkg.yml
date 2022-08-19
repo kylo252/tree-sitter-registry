@@ -1,6 +1,7 @@
 name: vcpkg
 
 on:
+  workflow_dispatch:
   push:
 
 jobs:
