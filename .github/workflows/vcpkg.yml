@@ -1,0 +1,22 @@
+name: vcpkg
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 8
+    name: vcpkg-test
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: test vcpkg
+        shell: pwsh
+        env:
+          VCPKG_DEFAULT_TRIPLET: 'x64-windows'
+        run: |
+          vcpkg version
+          cd example
+          vcpkg install --vcpkg-root="$env:VCPKG_INSTALLATION_ROOT"
