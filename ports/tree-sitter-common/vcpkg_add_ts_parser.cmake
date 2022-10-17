@@ -1,11 +1,13 @@
 # This include guard ensures the file will be loaded only once
 include_guard(GLOBAL)
 
-function(vcpkg_ts_parser_add)
+function(vcpkg_add_ts_parser)
   cmake_parse_arguments(PARSER
     ""
     ""
-    "LANGUAGE;MIN_ABI_VERSION;SOURCE_PATH" ${ARGN})
+    "LANGUAGE;MIN_ABI_VERSION;SOURCE_PATH;LICENSE_FILE" ${ARGN})
+
+  set(PARSER_NAME tree-sitter-${PARSER_LANGUAGE})
 
   if(EXISTS "${PARSER_SOURCE_PATH}/src/parser.c")
     set(_abi_version_re "#define LANGUAGE_VERSION ([0-9]+)")
@@ -16,34 +18,21 @@ function(vcpkg_ts_parser_add)
     string(REGEX REPLACE "${_abi_version_re}" "\\1" _abi_version ${_abi_version_define})
   endif()
 
-  if(NOT  PARSER_MIN_ABI_VERSION)
+  if(NOT PARSER_MIN_ABI_VERSION)
     message(STATUS "[NOTICE] To use a different minimum ABI-version for this parser, create an overlay port, and set MIN_ABI_VERSION.")
     message(STATUS "This recipe is at ${CMAKE_CURRENT_LIST_DIR}")
     message(STATUS "See the overlay ports documentation at https://github.com/microsoft/vcpkg/blob/master/docs/specifications/ports-overlay.md")
   endif()
 
   if(NOT _abi_version EQUAL PARSER_MIN_ABI_VERSION)
-    message(STATUS "Re-generating parser with min ABI-version: ${PARSER_MIN_ABI_VERSION}")
-    find_program(NPM NAMES npm)
-    if(NOT NPM)
-        message(FATAL_ERROR "node not found! Please install it via your system package manager!")
-    endif()
-    vcpkg_add_to_path(PREPEND "${CURRENT_BUILDTREES_DIR}/node_modules/bin")
-
-    vcpkg_execute_required_process(
-      COMMAND npm install tree-sitter-cli
-      WORKING_DIRECTORY ${CURRENT_BUILDTREES_DIR}
-      LOGNAME prerequistes-npm-${TARGET_TRIPLET}
-    )
-    vcpkg_execute_required_process(
-      COMMAND tree-sitter generate --log --abi ${PARSER_MIN_ABI_VERSION}
-      WORKING_DIRECTORY ${PARSER_SOURCE_PATH}
-      LOGNAME grammar-regen-${TARGET_TRIPLET}
-    )
+    message(FATAL_ERROR "ABI mismatch with ${PARSER_NAME}, expected ${PARSER_MIN_ABI_VERSION}.")
   endif()
 
-  set(PARSER_NAME tree-sitter-${PARSER_LANGUAGE})
-  configure_file(${CURRENT_HOST_INSTALLED_DIR}/share/tree-sitter-common/CMakeLists.txt.in ${PARSER_SOURCE_PATH}/CMakeLists.txt @ONLY)
+  if(NOT PARSER_LICENSE_FILE)
+    set(PARSER_LICENSE_FILE "${PARSER_SOURCE_PATH}/LICENSE")
+  endif()
+
+  configure_file("${CURRENT_HOST_INSTALLED_DIR}/share/tree-sitter-common/CMakeLists.txt.in" "${PARSER_SOURCE_PATH}/CMakeLists.txt" @ONLY)
 
   vcpkg_cmake_configure(
     SOURCE_PATH "${PARSER_SOURCE_PATH}"
@@ -58,7 +47,7 @@ function(vcpkg_ts_parser_add)
   endif()
 
   # Handle copyright
-  file(INSTALL ${PARSER_SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+  file(INSTALL "${PARSER_LICENSE_FILE}" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
 
   vcpkg_fixup_pkgconfig()
   vcpkg_copy_pdbs()

@@ -8,7 +8,7 @@ vcpkg_from_github(
   HEAD_REF @HEAD_REF@
 )
 
-vcpkg_ts_parser_add(
+vcpkg_add_ts_parser(
   LANGUAGE @LANGUAGE@
   SOURCE_PATH @SOURCE_PATH@
   MIN_ABI_VERSION @ABI_VER@
