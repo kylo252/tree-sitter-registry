@@ -12,5 +12,6 @@ vcpkg_add_ts_parser(
   LANGUAGE typescript
   SOURCE_PATH "${SOURCE_PATH}/typescript"
   MIN_ABI_VERSION 13
+  LICENSE_FILE "${SOURCE_PATH}/LICENSE"
 )
 
