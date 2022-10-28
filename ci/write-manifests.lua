@@ -206,6 +206,20 @@ local function write_portfile(parser_info)
   fd:flush()
 end
 
+local function write_usage(parser_info)
+  local template_file = join_paths(uv.cwd(), "ci", "usage.in")
+  local f = assert(io.open(template_file, "r"))
+  local template = f:read("*a")
+  f:close()
+  template = template
+      :gsub("@LANGUAGE@", parser_info.language)
+  local prefix = join_paths(uv.cwd(), "ports", parser_info.name)
+  local outfile = join_paths(prefix, "usage")
+  local fd = assert(io.open(outfile, "w"))
+  fd:write(template, "\n")
+  fd:flush()
+end
+
 local function write_manifests()
   local parsers_file = join_paths(uv.cwd(), "parsers.lua")
   local parsers_info = dofile(parsers_file)
@@ -223,6 +237,7 @@ local function write_manifests()
 
     local manifest = vim.deepcopy(v)
     write_portfile(v)
+    write_usage(v)
     manifest.abi = nil
     manifest.revision = nil
     manifest.branch = nil

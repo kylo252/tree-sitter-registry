@@ -1,0 +1,6 @@
+The package tree-sitter-@LANGUAGE@ can be imported via CMake FindPkgConfig module:
+
+    find_package(PkgConfig)
+    pkg_check_modules(ts_@LANGUAGE@ REQUIRED IMPORTED_TARGET tree-sitter-@LANGUAGE@)
+
+    target_link_libraries(main PRIVATE PkgConfig::ts_@LANGUAGE@)
