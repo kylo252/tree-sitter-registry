@@ -8,9 +8,9 @@ jobs:
   windows:
     runs-on: windows-2022
     timeout-minutes: 8
-    name: vcpkg-test
+    name: windows-demo
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: test vcpkg
         shell: pwsh
@@ -19,5 +19,18 @@ jobs:
         run: |
           vcpkg version
           cd example
-          cmake --preset=default
-          cmake --build --preset=default
+          vcpkg install --vcpkg-root="$env:VCPKG_INSTALLATION_ROOT"
+  linux:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    name: linux-demo
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: test vcpkg
+        env:
+          VCPKG_DEFAULT_TRIPLET: 'x64-linux'
+        run: |
+          vcpkg version
+          cd example
+          vcpkg install --vcpkg-root="$VCPKG_INSTALLATION_ROOT"

@@ -5,7 +5,6 @@
       "name": "default",
       "environment": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "1",
-        "VCPKG_ROOT": "$env{XDG_DATA_HOME}/vcpkg",
         "PKG_CONFIG_PATH":"${sourceDir}/build/vcpkg_installed/x64-linux/lib/pkgconfig"
       },
       "generator": "Ninja",

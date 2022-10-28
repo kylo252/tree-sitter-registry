@@ -3,7 +3,7 @@
     {
       "kind": "git",
       "repository": "https://github.com/kylo252/tree-sitter-registry",
-      "baseline": "56804122595e484b61be285a01d05e088ee66263",
+      "baseline": "dde04154e01d6d5fa3b5d4d575f4561fd304b36c",
       "reference": "master",
       "packages": [
         "tree-sitter-common",
