@@ -1,3 +1,5 @@
 
 parsers.lua
-example/vcpkg_installed
+*/vcpkg_installed
+*/build
+*/.cache

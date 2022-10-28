@@ -3,7 +3,7 @@
     {
       "kind": "git",
       "repository": "https://github.com/kylo252/tree-sitter-registry",
-      "baseline": "e4ffe018e2aad087281fef06f0f6e132c56f97a2",
+      "baseline": "56804122595e484b61be285a01d05e088ee66263",
       "reference": "master",
       "packages": [
         "tree-sitter-common",
@@ -17,14 +17,6 @@
         "tree-sitter-rust",
         "tree-sitter-typescript",
         "tree-sitter-yaml"
-      ]
-    },
-    {
-      "kind": "git",
-      "repository": "https://github.com/mathisloge/vcpkg-registry",
-      "baseline": "f65530375ff334fd3152b7d5e2651d0b54165629",
-      "packages": [
-        "lua51"
       ]
     }
   ]

@@ -1,17 +1,9 @@
 {
-  "name": "test-project",
+  "name": "parser-demo",
   "version-string": "1",
-  "description": "vcpkg registries test",
+  "description": "vcpkg parser demo",
   "dependencies": [
-    "tree-sitter-c",
-    "tree-sitter-bash",
-    "tree-sitter-css",
-    "tree-sitter-javascript",
-    "tree-sitter-json",
-    "tree-sitter-lua",
-    "tree-sitter-python",
-    "tree-sitter-rust",
-    "tree-sitter-typescript",
-    "tree-sitter-yaml"
+    "tree-sitter",
+    "tree-sitter-json"
   ]
 }

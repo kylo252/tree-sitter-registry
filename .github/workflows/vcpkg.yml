@@ -19,4 +19,5 @@ jobs:
         run: |
           vcpkg version
           cd example
-          vcpkg install --vcpkg-root="$env:VCPKG_INSTALLATION_ROOT"
+          cmake --preset=default
+          cmake --build --preset=default
